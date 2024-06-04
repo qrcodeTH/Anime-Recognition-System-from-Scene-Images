@@ -114,8 +114,8 @@ lr = 0.01
 epochs = 100
 smoothing = 0.1
 batch_size = 24
-trainpath = './Train'
-valpath = './Validation'
+trainpath = './dataset/Train'
+valpath = './dataset/Validation'
 resume_path = None
 
 # Data transformations 
