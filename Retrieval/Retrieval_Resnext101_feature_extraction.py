@@ -79,12 +79,17 @@ transform = transforms.Compose([
 ])
 
 # Load dataset and extract features
-path = './Train'
+path = '/kaggle/working/Train'
 pathlist = getFileList(path)
 labels = [p.split('/')[-2] for p in pathlist]
 dataset = MyDataset(dirs=pathlist, labels=labels, transform=transform)
 dataloader = DataLoader(dataset, batch_size=8, shuffle=False, num_workers=2)
 features, label_list = extract_features(model, dataloader)
 
-# Save features and labels
-torch.save({'features': features, 'labels': label_list}, 'Retrieval_Resnext101_features_and_labels.pth')
+# Save features, labels, and image paths
+data = {
+    'features': features,
+    'labels': label_list,
+    'paths': pathlist
+}
+torch.save(data, './features_and_labels.pth')
