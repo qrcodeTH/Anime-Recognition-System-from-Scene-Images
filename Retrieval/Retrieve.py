@@ -1,6 +1,6 @@
 import torch
 from torchvision import transforms
-from utils import MyResNeXt101, single_picture, show_retrieval_images
+from utils import single_picture, show_retrieval_images
 from Classify_MobileNetV2 import MyResNeXt101
 
 # Load your pre-trained model
