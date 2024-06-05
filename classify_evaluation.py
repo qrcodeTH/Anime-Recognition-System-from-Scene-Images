@@ -6,7 +6,7 @@ from sklearn.metrics import label_ranking_average_precision_score
 from main import train_val
 
 # Import the model classes
-from model import MyResNeXt101
+from model.model import MyResNeXt101
 
 # Define test transformations
 test_transforms = transforms.Compose([
