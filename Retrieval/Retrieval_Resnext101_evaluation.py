@@ -10,62 +10,6 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import average_precision_score
 import numpy as np
 
-class MyResNeXt101(nn.Module):
-    def __init__(self, num_classes=100):
-        super(MyResNeXt101, self).__init__()
-        self.network = models.resnext101_32x8d(pretrained=True)
-
-        in_features = self.network.fc.in_features
-        self.network.fc = nn.Linear(in_features, num_classes)
-
-    def forward(self, x):
-        return self.network(x)
-
-class MyDataset(Dataset):
-    def __init__(self, dirs, labels, transform=None):
-        self.dirs = dirs
-        self.labels = labels
-        self.transform = transform
-
-    def __len__(self):
-        return len(self.dirs)
-
-    def __getitem__(self, idx):
-        img_path = self.dirs[idx]
-        label = self.labels[idx]
-        img = Image.open(img_path).convert('RGB')
-        if self.transform:
-            img = self.transform(img)
-        return img, label
-
-def getFileList(root):
-    file_list = []
-    for path, subdirs, files in os.walk(root):
-        for name in files:
-            if name.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                file_list.append(os.path.join(path, name))
-    return file_list
-
-def extract_features(model, dataloader):
-    features = torch.FloatTensor()
-    label_list = []
-    for img, label in tqdm(dataloader):
-        img = img.cuda()
-        outputs = model(img)
-        ff = outputs.data.cpu()
-        features = torch.cat((features, ff), 0)
-        label_list += list(label)
-    return features, label_list
-
-def single_picture(model, query_path, transform):
-    img = Image.open(query_path)
-    img = transform(img)
-    img = img.cuda()
-    img = img.unsqueeze(0)
-    outputs = model(img)
-    outputs = outputs.data.cpu()
-    return outputs
-
 # Load your pre-trained model
 model = MyResNeXt101()
 model.load_state_dict(torch.load('./Resnext101.pth')) #put the resnext101 model path
