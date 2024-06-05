@@ -5,6 +5,7 @@ from tqdm import tqdm
 import numpy as np
 from sklearn.metrics import average_precision_score
 from utils import MyResNeXt101, MyDataset, getFileList, extract_features
+from Classify_MobileNetV2 import MyResNeXt101
 
 # Load your pre-trained model
 model = MyResNeXt101()
