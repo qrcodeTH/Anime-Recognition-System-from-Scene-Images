@@ -93,3 +93,4 @@ data = {
     'paths': pathlist
 }
 torch.save(data, './features_and_labels.pth')
+
