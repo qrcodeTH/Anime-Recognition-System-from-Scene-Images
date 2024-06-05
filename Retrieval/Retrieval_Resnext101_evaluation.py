@@ -25,10 +25,17 @@ transform = transforms.Compose([
 ])
 
 # Load previously saved features and labels
-data = torch.load('./Retrieval_Resnext101_features_and_labels.pth') # put your featureandlabel.pth path here
+data = torch.load('./features_and_labels.pth') # put your featureandlabel.pth path here
 features = data['features']
 label_list = data['labels']
+pathlist = data['paths']
 
+# Load test dataset
+test_path = './dataset/Test'
+test_pathlist = getFileList(test_path)
+test_labels = [p.split('/')[-2] for p in test_pathlist]
+test_dataset = MyDataset(dirs=test_pathlist, labels=test_labels, transform=transform)
+test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=2)
 # Load test dataset
 test_path = './dataset/Test'
 test_pathlist = getFileList(test_path)
