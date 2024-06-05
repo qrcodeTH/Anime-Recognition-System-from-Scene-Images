@@ -36,12 +36,6 @@ test_pathlist = getFileList(test_path)
 test_labels = [p.split('/')[-2] for p in test_pathlist]
 test_dataset = MyDataset(dirs=test_pathlist, labels=test_labels, transform=transform)
 test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=2)
-# Load test dataset
-test_path = './dataset/Test'
-test_pathlist = getFileList(test_path)
-test_labels = [p.split('/')[-2] for p in test_pathlist]
-test_dataset = MyDataset(dirs=test_pathlist, labels=test_labels, transform=transform)
-test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=2)
 
 # Function to evaluate accuracy
 def evaluate_accuracy(model, dataloader, pathlist, label_list, top_k=5):
