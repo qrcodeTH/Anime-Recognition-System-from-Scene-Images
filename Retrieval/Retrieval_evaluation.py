@@ -1,19 +1,14 @@
-import torch.nn as nn
-import torchvision.models as models
-import os
-from PIL import Image
-from torch.utils.data import Dataset, DataLoader
 import torch
+from torch.utils.data import DataLoader
 from torchvision import transforms
 from tqdm import tqdm
-import matplotlib.pyplot as plt
-from sklearn.metrics import average_precision_score
 import numpy as np
+from sklearn.metrics import average_precision_score
+from utils import MyResNeXt101, MyDataset, getFileList, extract_features
 
 # Load your pre-trained model
 model = MyResNeXt101()
-model.load_state_dict(torch.load('./Resnext101.pth')) #put the resnext101 model path
-model.classifier = nn.Sequential()
+model.load_state_dict(torch.load('./Resnext101.pth')) # put the resnext101 model path here
 model = model.cuda()
 model = model.eval()
 
