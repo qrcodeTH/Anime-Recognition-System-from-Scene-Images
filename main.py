@@ -7,7 +7,7 @@ from torch import optim
 from loss.labelloss import LabelSmoothing  
 import torch.nn as nn
 import torchvision.models as models
-from model import MyResNeXt101 # Choose the model
+from model.model import MyResNeXt101 # Choose the model
     
 os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
