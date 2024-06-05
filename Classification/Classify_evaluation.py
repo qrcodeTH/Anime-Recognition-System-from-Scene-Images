@@ -6,7 +6,7 @@ from sklearn.metrics import label_ranking_average_precision_score
 from main import train_val
 
 # Import the model classes
-from model import MyEfficientNetB7
+from model import MyResNeXt101
 
 # Define test transformations
 test_transforms = transforms.Compose([
@@ -16,7 +16,7 @@ test_transforms = transforms.Compose([
 ])
 
 # Load the saved model
-model = MyEfficientNetB7().cuda()
+model = MyResNeXt101(num_classes=100).cuda()
 
 # Load the state dictionary
 state_dict = torch.load('./best_model.pth')  # Path to the model
