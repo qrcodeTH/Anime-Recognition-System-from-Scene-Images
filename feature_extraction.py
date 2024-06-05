@@ -2,7 +2,7 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from utils import MyDataset, getFileList, extract_features
-from Classify_MobileNetV2 import MyResNeXt101
+from model.model import MyResNeXt101
 
 # Load your pre-trained model
 model = MyResNeXt101()
