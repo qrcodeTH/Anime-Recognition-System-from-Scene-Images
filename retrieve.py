@@ -1,7 +1,7 @@
 import torch
 from torchvision import transforms
 from utils import single_picture, show_retrieval_images
-from Classify_MobileNetV2 import MyResNeXt101
+from model.model import MyResNeXt101
 
 # Load your pre-trained model
 model = MyResNeXt101()
