@@ -1,59 +1,8 @@
-import torch.nn as nn
-import torchvision.models as models
-import os
-from PIL import Image
-from torch.utils.data import Dataset, DataLoader
 import torch
+from torch.utils.data import DataLoader
 from torchvision import transforms
-from tqdm import tqdm
-import matplotlib.pyplot as plt
-from Classify_MobileNetV2 import MyResNeXt101
+from utils import MyResNeXt101, MyDataset, getFileList, extract_features
 
-class MyDataset(Dataset):
-    def __init__(self, dirs, labels, transform=None):
-        self.dirs = dirs
-        self.labels = labels
-        self.transform = transform
-
-    def __len__(self):
-        return len(self.dirs)
-
-    def __getitem__(self, idx):
-        img_path = self.dirs[idx]
-        label = self.labels[idx]
-        img = Image.open(img_path).convert('RGB')
-        if self.transform:
-            img = self.transform(img)
-        return img, label
-
-def getFileList(root):
-    file_list = []
-    for path, subdirs, files in os.walk(root):
-        for name in files:
-            if name.endswith(('.png', '.jpg', '.jpeg', '.bmp', '.gif')):
-                file_list.append(os.path.join(path, name))
-    return file_list
-
-def extract_features(model, dataloader):
-    features = torch.FloatTensor()
-    label_list = []
-    for img, label in tqdm(dataloader):
-        img = img.cuda()
-        outputs = model(img)
-        ff = outputs.data.cpu()
-        features = torch.cat((features, ff), 0)
-        label_list += list(label)
-    return features, label_list
-
-def single_picture(model, query_path, transform):
-    img = Image.open(query_path)
-    img = transform(img)
-    img = img.cuda()
-    img = img.unsqueeze(0)
-    outputs = model(img)
-    outputs = outputs.data.cpu()
-    return outputs
-            
 # Load your pre-trained model
 model = MyResNeXt101()
 model.load_state_dict(torch.load('./Resnext101.pth')) # put resnext101 model path here
@@ -83,4 +32,3 @@ data = {
     'paths': pathlist
 }
 torch.save(data, './features_and_labels.pth')
-
