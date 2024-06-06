@@ -76,22 +76,22 @@ cd your-repo-name
 pip install -r requirements.txt
 ```
 # Usage
-Training
+## Training
 To start training a model, run:
 ```
 python main.py --train
 ```
-Feature Extraction
+## Feature Extraction
 To extract features from a trained model, run:
 ```
 python feature_extraction.py
 ```
-Image Retrieval
+## Image Retrieval
 To perform image retrieval, run:
 ```
 python retrieve.py --query <path_to_query_image>
 ```
-Evaluation
+## Evaluation
 To evaluate the model performance on classification tasks, run:
 ```
 python classification_evaluation.py
