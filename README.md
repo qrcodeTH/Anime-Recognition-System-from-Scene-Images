@@ -40,12 +40,16 @@ The retrieve.py script demonstrates how to perform image retrieval using extract
 The classification_evaluation.py and retrieval_evaluation.py scripts provide a comprehensive evaluation of the models using the following metrics:
 
 • Accuracy
+
 • Top-5 Accuracy
+
 • Mean Reciprocal Rank (MRR)
+
 • Mean Average Precision (MAP)
 
 # Getting Started
 Requirements
+
 • Python 3.x
 
 • PyTorch
