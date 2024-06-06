@@ -13,9 +13,13 @@ The goal of this project is to address the issue of identifying anime titles fro
 This repository includes implementations of several popular neural network architectures for efficient image classification and retrieval:
 
 • EfficientNet-B0
+
 • EfficientNet-B7
+
 • ResNeXt-101
+
 • SEResNeXt-101
+
 • MobileNetV2
 
 # Loss Functions
@@ -43,23 +47,29 @@ The classification_evaluation.py and retrieval_evaluation.py scripts provide a c
 # Getting Started
 Requirements
 • Python 3.x
+
 • PyTorch
+
 • torchvision
+
 • numpy
+
 • scikit-learn
+
 • PIL
+
 • tqdm
 
 # Installation
 1. Clone the repository:
-''' 
+```
 git clone https://github.com/yourusername/your-repo-name.git
 cd your-repo-name
-'''
+```
 
 2. install the required dependencies:
-''' 
+```
 pip install -r requirements.txt
-'''
+```
 
 
