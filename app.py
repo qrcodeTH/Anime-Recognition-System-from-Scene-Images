@@ -132,7 +132,7 @@ class MyResNeXt101(nn.Module):
 
 # Load the model
 model = MyResNeXt101(num_classes=100)
-state_dict = torch.load('.\best_model Resnext101.pth', map_location=torch.device('cpu'))
+state_dict = torch.load('.//best_model Resnext101.pth', map_location=torch.device('cpu'))
 model.load_state_dict(state_dict)
 model.eval()
 
