@@ -6,6 +6,7 @@ The goal of this project is to address the issue of identifying anime titles fro
 
 # Features
 • Classification Model: Classifies anime based on scene images.
+
 • Retrieval Model: Retrieves the most similar anime titles for given scene images.
 
 # Blog
