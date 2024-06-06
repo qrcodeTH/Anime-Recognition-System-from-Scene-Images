@@ -9,7 +9,7 @@ from model.model import MyResNeXt101
 
 # Load your pre-trained model
 model = MyResNeXt101()
-model.load_state_dict(torch.load('./Resnext101.pth')) # put the resnext101 model path here
+model.load_state_dict(torch.load('./Resnext101.pth')) # Put the resnext101 model path here
 model = model.cuda()
 model = model.eval()
 
@@ -21,7 +21,7 @@ transform = transforms.Compose([
 ])
 
 # Load previously saved features and labels
-data = torch.load('./features_and_labels.pth') # put your featureandlabel.pth path here
+data = torch.load('./features_and_labels.pth') # Put your featureandlabel.pth path here
 features = data['features']
 label_list = data['labels']
 pathlist = data['paths']
