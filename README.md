@@ -75,5 +75,33 @@ cd your-repo-name
 ```
 pip install -r requirements.txt
 ```
+# Usage
+Training
+To start training a model, run:
+```
+python main.py --train
+```
+Feature Extraction
+To extract features from a trained model, run:
+```
+python feature_extraction.py
+```
+Image Retrieval
+To perform image retrieval, run:
+```
+python retrieve.py --query <path_to_query_image>
+```
+Evaluation
+To evaluate the model performance on classification tasks, run:
+```
+python classification_evaluation.py
+```
+To evaluate the model performance on retrieval tasks, run:
+```
+python retrieval_evaluation.py
+```
+# Blog
+For detailed explanations and insights about this project, visit my medium blog(Thai).
 
-
+# Deployment
+Instructions for deploying this system will be added soon.
