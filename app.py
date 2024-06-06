@@ -2,7 +2,6 @@ import streamlit as st
 import torch
 import torch.nn as nn
 from torchvision import transforms
-from efficientnet_pytorch import EfficientNet
 from PIL import Image
 import json
 import os
