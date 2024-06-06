@@ -26,7 +26,7 @@ dataset = MyDataset(dirs=pathlist, labels=labels, transform=transform)
 dataloader = DataLoader(dataset, batch_size=8, shuffle=False, num_workers=2)
 features, label_list = extract_features(model, dataloader)
 
-# Save features, labels, and image paths
+# Save features labels and image paths
 data = {
     'features': features,
     'labels': label_list,
