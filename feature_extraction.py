@@ -6,7 +6,7 @@ from model.model import MyResNeXt101
 
 # Load your pre-trained model
 model = MyResNeXt101()
-model.load_state_dict(torch.load('./Resnext101.pth')) # put resnext101 model path here
+model.load_state_dict(torch.load('./Resnext101.pth')) # Put resnext101 model path here
 model.classifier = nn.Sequential()
 model = model.cuda()
 model = model.eval()
