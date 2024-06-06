@@ -104,4 +104,4 @@ python retrieval_evaluation.py
 For detailed explanations and insights about this project, visit my medium blog(Thai).
 
 # Deployment
-Instructions for deploying this system will be added soon.
+Website : https://anime-recognition-system-from-scene-images-zvyniwrjmg8tpz5e8vh.streamlit.app/
