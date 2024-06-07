@@ -303,7 +303,7 @@ def fetch_anilist_info(anilist_id):
 def format_number_with_commas(number):
     return f"{number:,}"
 
-st.title('Anime Recognition System from Scene Images')
+st.title('AniRec 🔎 (Anime Recognition System from Scene Images)')
 st.write('Upload an anime scene image to identify it.')
 
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png", "webp"])
