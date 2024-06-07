@@ -1,4 +1,4 @@
-# Anime Recognition System from Scene Images
+# Anime Recognition System from Scene Images (ARS)
 This repository contains the code for training a classification/retrieval model to identify anime titles from scene images.
 
 # Overview
