@@ -322,8 +322,8 @@ if uploaded_file is not None:
         st.markdown(f'{underlined_label}:{padding_spaces}', unsafe_allow_html=True)
         
         # Display the image corresponding to the label
-        label_image_path_jpg = f'search_images/{label}.jpg'  # Assuming images are stored in a directory named 'images'
-        label_image_path_png = f'search_images/{label}.png'  # Assuming images are stored in a directory named 'images'
+        label_image_path_jpg = f'images/{label}.jpg'  # Assuming images are stored in a directory named 'images'
+        label_image_path_png = f'images/{label}.png'  # Assuming images are stored in a directory named 'images'
 
         if os.path.exists(label_image_path_jpg):
             label_image = Image.open(label_image_path_jpg)
