@@ -57,11 +57,74 @@ for i, sample in enumerate(y_true):
 # Calculate the label ranking average precision score
 mean_lraps = label_ranking_average_precision_score(y_true_binary, y_score, sample_weight=None)
 
-# Import remaining functions from main.py
-from main import reciprocal_rank, mean_reciprocal_rank, accuracy, top_5_accuracy
+# Function to calculate the reciprocal rank
+def reciprocal_rank(output, label):
+    _, top_5_indices = output.topk(5, 1, True, True)
+    top_5_indices = top_5_indices.cpu().numpy()
+    label = label.cpu().numpy()
+    
+    for rank, idx in enumerate(top_5_indices[0]):
+        if idx == label[0]:
+            return 1.0 / (rank + 1)
+    return 0.0
+
+# Function to calculate MRR
+def mean_reciprocal_rank(model, data_loader):
+    reciprocal_ranks = []
+
+    with torch.no_grad():
+        for data in data_loader:
+            images, labels = data
+            images = images.cuda()
+            labels = labels.cuda()
+
+            outputs = model(images)
+            rr = reciprocal_rank(outputs, labels)
+            reciprocal_ranks.append(rr)
+
+    return np.mean(reciprocal_ranks)
 
 # Calculate the MRR score
 mrr_score = mean_reciprocal_rank(model, test_loader)
+
+# Function to calculate accuracy
+def accuracy(model, data_loader):
+    correct = 0
+    total = 0
+
+    with torch.no_grad():
+        for data in data_loader:
+            images, labels = data
+            images = images.cuda()
+            labels = labels.cuda()
+
+            outputs = model(images)
+            _, predicted = torch.max(outputs, 1)
+
+            correct += (predicted == labels).sum().item()
+            total += labels.size(0)
+
+    return correct / total
+
+# Function to calculate top-5 accuracy
+def top_5_accuracy(model, data_loader):
+    correct_top_5 = 0
+    total = 0
+
+    with torch.no_grad():
+        for data in data_loader:
+            images, labels = data
+            images = images.cuda()
+            labels = labels.cuda()
+
+            outputs = model(images)
+            _, top_5 = outputs.topk(5, 1, True, True)
+
+            # Check if the correct label is in the top-5 predictions
+            correct_top_5 += torch.sum(top_5 == labels.unsqueeze(1)).item()
+            total += labels.size(0)
+
+    return correct_top_5 / total
 
 # Calculate accuracy score
 accuracy_score = accuracy(model, test_loader)
