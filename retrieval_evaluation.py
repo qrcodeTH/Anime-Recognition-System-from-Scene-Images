@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 from tqdm import tqdm
 import numpy as np
-from sklearn.metrics import average_precision_score
+from sklearn.metrics import label_ranking_average_precision_score
 from utils import MyDataset, getFileList, extract_features
 from model.model import MyResNeXt101
 
@@ -20,11 +20,10 @@ transform = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-# Load previously saved features and labels
-data = torch.load('./features_and_labels.pth') # Put your featureandlabel.pth path here
-features = data['features']
-label_list = data['labels']
-pathlist = data['paths']
+# Load saved features and other necessary data
+features = torch.load('./features.pth')
+pathlist = torch.load('./pathlist.pth')
+label_list = torch.load('./label_list.pth')
 
 # Load test dataset
 test_path = './dataset/Test'
@@ -33,7 +32,7 @@ test_labels = [p.split('/')[-2] for p in test_pathlist]
 test_dataset = MyDataset(dirs=test_pathlist, labels=test_labels, transform=transform)
 test_dataloader = DataLoader(test_dataset, batch_size=1, shuffle=False, num_workers=2)
 
-# Function to evaluate accuracy
+# Define your evaluation functions
 def evaluate_accuracy(model, dataloader, pathlist, label_list, top_k=5):
     total_images = 0
     top1_correct = 0
@@ -52,7 +51,14 @@ def evaluate_accuracy(model, dataloader, pathlist, label_list, top_k=5):
         if label_list[retrieval_indices[0]] == query_label[0]:
             top1_correct += 1
 
-        top_k_labels = [label_list[idx] for idx in retrieval_indices[:top_k]]
+        top_k_labels = []
+        for idx in retrieval_indices:
+            label = label_list[idx]
+            if label not in top_k_labels:
+                top_k_labels.append(label)
+            if len(top_k_labels) == top_k:
+                break
+
         if query_label[0] in top_k_labels:
             top5_correct += 1
 
@@ -61,13 +67,9 @@ def evaluate_accuracy(model, dataloader, pathlist, label_list, top_k=5):
 
     return top1_accuracy, top5_accuracy
 
-# Evaluate accuracy
-top1_acc, top5_acc = evaluate_accuracy(model, test_dataloader, test_pathlist, test_labels)
-
-def evaluate_map_mrr(model, dataloader, pathlist, label_list):
+def evaluate_lbap_mrr(model, dataloader, pathlist, label_list):
     features_cuda = features.cuda()
-
-    average_precisions = []
+    lbaps = []
     reciprocal_ranks = []
 
     for query_img, query_label in tqdm(dataloader):
@@ -79,11 +81,18 @@ def evaluate_map_mrr(model, dataloader, pathlist, label_list):
             retrieval_indices = torch.argsort(dist_matrix)
 
         true_labels = [1 if label_list[idx] == query_label[0] else 0 for idx in retrieval_indices]
-        scores = -dist_matrix[retrieval_indices].detach().cpu().numpy() 
+        scores = -dist_matrix[retrieval_indices].detach().cpu().numpy()  # Invert distance to get scores
 
-        ap = average_precision_score(true_labels, scores)
-        average_precisions.append(ap)
+        unique_labels = []
+        unique_scores = []
+        for label, score in zip(true_labels, scores):
+            if label not in unique_labels:
+                unique_labels.append(label)
+                unique_scores.append(score)
 
+        if sum(true_labels) > 0:  
+            lbap = label_ranking_average_precision_score([true_labels], [scores])
+            lbaps.append(lbap)
         for rank, idx in enumerate(retrieval_indices):
             if label_list[idx] == query_label[0]:
                 reciprocal_ranks.append(1.0 / (rank + 1))
@@ -91,14 +100,23 @@ def evaluate_map_mrr(model, dataloader, pathlist, label_list):
         else:
             reciprocal_ranks.append(0)  
 
-    mean_ap = np.mean(average_precisions)
+    # Compute mean of the LBAPs and reciprocal ranks
+    mean_lbap = np.mean(lbaps)
     mean_rr = np.mean(reciprocal_ranks)
 
-    return mean_ap, mean_rr
+    return mean_lbap, mean_rr
 
-mean_ap, mean_rr = evaluate_map_mrr(model, test_dataloader, test_pathlist, test_labels)
+# Define and load the test dataset and dataloader
+test_dataset = MyDataset(dirs=pathlist, labels=label_list, transform=transform)
+test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False, num_workers=2)
 
-print(f"Top-1 Accuracy: {top1_acc * 100:.4f}%")
-print(f"Top-5 Accuracy: {top5_acc * 100:.4f}%")
-print(f"Mean Average Precision (mAP): {mean_ap * 100:.4f}%")
-print(f"Mean Reciprocal Rank (MRR): {mean_rr * 100:.4f}%")
+# Evaluate accuracy
+top1_acc, top5_acc = evaluate_accuracy(model, test_dataloader, pathlist, label_list)
+
+# Evaluate LBAP and MRR
+mean_lbap, mean_rr = evaluate_lbap_mrr(model, test_dataloader, pathlist, label_list)
+
+print(f"Top-1 Accuracy: {top1_acc * 100:.2f}%")
+print(f"Top-5 Accuracy: {top5_acc * 100:.2f}%")
+print(f"Mean LBAP (Label-Based Average Precision): {mean_lbap * 100:.2f}%")
+print(f"Mean Reciprocal Rank (MRR): {mean_rr * 100:.2f}%")
