@@ -17,10 +17,9 @@ transform = transforms.Compose([
 ])
 
 # Load previously saved features and labels
-data = torch.load('./features_and_labels.pth') # put your featureandlabel.pth path here
-features = data['features']
-label_list = data['labels']
-pathlist = data['paths']  
+features = torch.load('./features.pth')
+pathlist = torch.load('./pathlist.pth')
+label_list = torch.load('./label_list.pth')
 
 query_path = '' # Your query image path
 query_feats = single_picture(model, query_path, transform)
