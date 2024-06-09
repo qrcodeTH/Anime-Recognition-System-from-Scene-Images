@@ -45,12 +45,15 @@ def extract_features(model, dataloader):
 
 def single_picture(model, query_path, transform):
     img = Image.open(query_path)
+    # Ensure the image has 3 channels
+    if img.mode != 'RGB':
+        img = img.convert('RGB')
     img = transform(img)
-    img = img.cuda()
+    img = img.cuda()  # Move image to GPU
     img = img.unsqueeze(0)
-    outputs = model(img)
-    outputs = outputs.data.cpu()
-    return outputs
+    with torch.no_grad():
+        output = model(img)
+    return output
 
 def show_retrieval_images(query_path, dist_matrix, gallery_dirs, label_list, retrieval_num=5):
     query_image = Image.open(query_path).convert('RGB').resize((224, 224), resample=Image.BILINEAR)
@@ -59,20 +62,27 @@ def show_retrieval_images(query_path, dist_matrix, gallery_dirs, label_list, ret
     plt.title('Query Image')
     plt.show()
 
-    retrieved_labels = set()
+    retrieved_labels = set()  # To keep track of retrieved labels
     retrieved_count = 0
+
+    # Sort indices based on distances
     sorted_indices = torch.argsort(dist_matrix)
 
     for idx in sorted_indices:
         retrieval_dist = dist_matrix[idx].item()
         retrieval_label = label_list[idx]
+
+        # Check if the label has already been retrieved
         if retrieval_label not in retrieved_labels:
             retrieved_labels.add(retrieval_label)
             retrieved_count += 1
+
             retrieval_image = Image.open(gallery_dirs[idx]).convert('RGB').resize((224, 224), resample=Image.BILINEAR)
+            
+            # Show the retrieved image
             plt.imshow(retrieval_image)
             plt.axis('off')
-            plt.title(f'Label: {retrieval_label}, Distance: {retrieval_dist:.4f}')
+            plt.title('Label: {}, Distance: {:.4f}'.format(retrieval_label, retrieval_dist))
             plt.show()
 
         if retrieved_count == retrieval_num:
