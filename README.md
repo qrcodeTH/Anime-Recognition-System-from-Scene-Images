@@ -11,6 +11,7 @@ The goal of this project is to address the issue of identifying anime titles fro
 
 # Dataset
 Dataset drive : https://drive.google.com/file/d/1adYN9lmDqZ0vXpLLiJJ1kvilKKUazvdw/view?usp=sharing
+
 # Models
 This repository includes implementations of several popular neural network architectures for efficient image classification and retrieval:
 
