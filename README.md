@@ -1,5 +1,5 @@
 # Anime Recognition System from Scene Images (AniRec 🔎)
-This repository contains the code for training a classification/retrieval model to identify anime titles from scene images.
+This repository contains the code for training a classification/retrieval model to identify anime titles from scene images. 
 
 # Overview
 The goal of this project is to address the issue of identifying anime titles from images posted on the internet. This system enables users to upload an image of an anime scene and receive the corresponding anime title.
@@ -9,6 +9,8 @@ The goal of this project is to address the issue of identifying anime titles fro
 
 • Retrieval Model: Retrieves the most similar anime titles for given scene images.
 
+# Dataset
+Dataset drive : https://drive.google.com/file/d/1adYN9lmDqZ0vXpLLiJJ1kvilKKUazvdw/view?usp=sharing
 # Models
 This repository includes implementations of several popular neural network architectures for efficient image classification and retrieval:
 
