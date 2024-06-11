@@ -107,4 +107,4 @@ python retrieval_evaluation.py
 For detailed explanations and insights about this project, visit my medium blog(Thai) : https://medium.com/@thanaphum04571/anime-recognition-system-from-scene-images-anirec-ระบุชื่อเรื่องจากภาพซีนอนิเมะ-c0133dbbfaa9
 
 # Deployment
-Website : https://anime-recognition-system-from-scene-images-zvyniwrjmg8tpz5e8vh.streamlit.app/
+Website : [https://anime-recognition-system-from-scene-images-zvyniwrjmg8tpz5e8vh.streamlit.app/](https://huggingface.co/spaces/qrcodeTH/AniRec)
