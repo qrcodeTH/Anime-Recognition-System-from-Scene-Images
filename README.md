@@ -104,7 +104,7 @@ To evaluate the model performance on retrieval tasks, run:
 python retrieval_evaluation.py
 ```
 # Blog
-For detailed explanations and insights about this project, visit my medium blog(Thai).
+For detailed explanations and insights about this project, visit my medium blog(Thai) : https://medium.com/@thanaphum04571/anime-recognition-system-from-scene-images-anirec-ระบุชื่อเรื่องจากภาพซีนอนิเมะ-c0133dbbfaa9
 
 # Deployment
 Website : https://anime-recognition-system-from-scene-images-zvyniwrjmg8tpz5e8vh.streamlit.app/
