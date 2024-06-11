@@ -10,6 +10,7 @@ The goal of this project is to address the issue of identifying anime titles fro
 • Retrieval Model: Retrieves the most similar anime titles for given scene images.
 
 # Dataset
+Because the dataset file size is huge, I managed to put it on Google Drive.  
 Dataset drive : https://drive.google.com/file/d/1adYN9lmDqZ0vXpLLiJJ1kvilKKUazvdw/view?usp=sharing
 
 # Models
