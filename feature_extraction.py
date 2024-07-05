@@ -26,7 +26,3 @@ dataset = MyDataset(dirs=pathlist, labels=labels, transform=transform)
 dataloader = DataLoader(dataset, batch_size=8, shuffle=False, num_workers=2)
 features, label_list = extract_features(model, dataloader)
 
-# Save features and other necessary data
-torch.save(features, 'features.pth')
-torch.save(pathlist, 'pathlist.pth')
-torch.save(label_list, 'label_list.pth')
