@@ -16,11 +16,6 @@ transform = transforms.Compose([
     transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 ])
 
-# Load previously saved features and labels
-features = torch.load('./features.pth')
-pathlist = torch.load('./pathlist.pth')
-label_list = torch.load('./label_list.pth')
-
 query_path = '' # Your query image path
 query_feats = single_picture(model, query_path, transform)
 dist_matrix = torch.cdist(query_feats.unsqueeze(0), features.unsqueeze(0)).squeeze()
